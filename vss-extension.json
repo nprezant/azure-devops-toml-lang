@@ -1,0 +1,344 @@
+{
+    "manifestVersion": 1,
+    "id": "azure-devops-toml-lang",
+    "publisher": "noah-prezant",
+    "version": "0.0.1",
+    "name": "TOML Language Support",
+    "description": "Syntax highlighting for TOML files",
+    "public": false,
+    "categories": [
+        "Azure Repos"
+    ],
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],
+    "icons": {
+        "default": "toml-logo.png"
+    },
+    "content": {
+        "details": {
+            "path": "overview.md"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "uri": "https://github.com/nprezant/azure-devops-toml-lang"
+    },
+    "links": {
+        "support": {
+            "uri": "https://github.com/nprezant/azure-devops-toml-lang/issues"
+        },
+        "license": {
+            "uri": "https://github.com/nprezant/azure-devops-toml-lang/blob/main/LICENSE"
+        }
+    },
+    "contributions": [
+        {
+            "id": "toml-language-contribution",
+            "type": "ms.vss-features.code-editor-language",
+            "targets": [
+                "ms.vss-features.editor"
+            ],
+            "properties": {
+                "extensions": [
+                    ".toml"
+                ],
+                "language": {
+                    "defaultToken": "",
+                    "tokenPostfix": ".toml",
+                    "displayName": "Toml",
+                    "name": "toml",
+                    "mimeTypes": [
+                        "text/toml"
+                    ],
+                    "fileExtensions": [
+                        "toml"
+                    ],
+                    "brackets": [
+                        {
+                            "token": "delimiter.bracket",
+                            "open": "{",
+                            "close": "}"
+                        },
+                        {
+                            "token": "delimiter.square",
+                            "open": "[",
+                            "close": "]"
+                        }
+                    ],
+                    "keywords": [
+                        "true",
+                        "false",
+                        "nan",
+                        "+nan",
+                        "-nan",
+                        "inf",
+                        "+inf",
+                        "-inf"
+                    ],
+                    "tokenizer": {
+                        "root": [
+                            {
+                                "include": "@whitespace"
+                            },
+                            {
+                                "include": "@comment"
+                            },
+                            {
+                                "include": "@inlineCollections"
+                            },
+                            [
+                                "(\".*?\"|'.*?'|.*?)([\t ]*)(=)(\\s+|$)",
+                                [
+                                    "type",
+                                    "white",
+                                    "operators",
+                                    "white"
+                                ]
+                            ],
+                            {
+                                "include": "@numbers"
+                            },
+                            {
+                                "include": "@scalars"
+                            },
+                            [
+                                "\\S+$",
+                                {
+                                    "cases": {
+                                        "@keywords": "keyword",
+                                        "@default": "string"
+                                    }
+                                }
+                            ]
+                        ],
+                        "object": [
+                            {
+                                "include": "@whitespace"
+                            },
+                            {
+                                "include": "@comment"
+                            },
+                            [
+                                "\\}",
+                                "@brackets",
+                                "@pop"
+                            ],
+                            [
+                                ",",
+                                "delimiter.comma"
+                            ],
+                            [
+                                "[=]",
+                                "operators"
+                            ],
+                            [
+                                "(?:\".*?\"|'.*?'|[^,[{]+?)(?=[=])",
+                                "type"
+                            ],
+                            {
+                                "include": "@inlineCollections"
+                            },
+                            {
+                                "include": "@scalars"
+                            },
+                            {
+                                "include": "@numbers"
+                            },
+                            [
+                                "[^\\s,}]+",
+                                {
+                                    "cases": {
+                                        "@keywords": "keyword",
+                                        "@default": "string"
+                                    }
+                                }
+                            ]
+                        ],
+                        "array": [
+                            {
+                                "include": "@whitespace"
+                            },
+                            {
+                                "include": "@comment"
+                            },
+                            [
+                                "\\]",
+                                "@brackets",
+                                "@pop"
+                            ],
+                            [
+                                ",",
+                                "delimiter.comma"
+                            ],
+                            [
+                                "\\.",
+                                "delimiter.comma"
+                            ],
+                            {
+                                "include": "@inlineCollections"
+                            },
+                            {
+                                "include": "@scalars"
+                            },
+                            {
+                                "include": "@numbers"
+                            },
+                            [
+                                "[^\\s,.\\]]+",
+                                {
+                                    "cases": {
+                                        "@keywords": "keyword",
+                                        "@default": "string"
+                                    }
+                                }
+                            ]
+                        ],
+                        "whitespace": [
+                            [
+                                "[\t\n\r ]+",
+                                "white"
+                            ]
+                        ],
+                        "comment": [
+                            [
+                                "#.*$",
+                                "comment"
+                            ]
+                        ],
+                        "inlineCollections": [
+                            [
+                                "\\[",
+                                "@brackets",
+                                "@array"
+                            ],
+                            [
+                                "\\{",
+                                "@brackets",
+                                "@object"
+                            ]
+                        ],
+                        "scalars": [
+                            [
+                                "\"([^\"\\]|\\.)*$",
+                                "string.invalid"
+                            ],
+                            [
+                                "'([^'\\]|\\.)*$",
+                                "string.invalid"
+                            ],
+                            [
+                                "'''[^']*'''",
+                                "string"
+                            ],
+                            [
+                                "'[^']*'",
+                                "string"
+                            ],
+                            [
+                                "\"\"\"",
+                                "string",
+                                "@mlDoubleQuotedString"
+                            ],
+                            [
+                                "\"",
+                                "string",
+                                "@doubleQuotedString"
+                            ]
+                        ],
+                        "mlDoubleQuotedString": [
+                            [
+                                "[^\"\\]+",
+                                "string"
+                            ],
+                            [
+                                "\\[\"\\bfnrt]",
+                                "string.escape"
+                            ],
+                            [
+                                "\\.",
+                                "string.escape.invalid"
+                            ],
+                            [
+                                "\"\"\"",
+                                "string",
+                                "@pop"
+                            ]
+                        ],
+                        "doubleQuotedString": [
+                            [
+                                "[^\"\\]+",
+                                "string"
+                            ],
+                            [
+                                "\\[\"\\bfnrt]",
+                                "string.escape"
+                            ],
+                            [
+                                "\\.",
+                                "string.escape.invalid"
+                            ],
+                            [
+                                "\"",
+                                "string",
+                                "@pop"
+                            ]
+                        ],
+                        "numbers": [
+                            [
+                                "0|[+-]?\\d[\\d_]*(?=[\t]*[#,\\]}])",
+                                "number"
+                            ],
+                            [
+                                "(?:0|[+-]?\\d[\\d_]*)(?:\\.\\d+)?(?:e[+-]?[1-9]\\d*)?(?=[\t]*[#,\\]}])",
+                                "number.float"
+                            ],
+                            [
+                                "0o[0-7][0-7_]*(?=[\t]*[#,\\]}])",
+                                "number.octal"
+                            ],
+                            [
+                                "0b[01][01_]*(?=[\t]*[#,\\]}])",
+                                "number.binary"
+                            ],
+                            [
+                                "0x[\\dA-Fa-f][\\dA-F_a-f]*(?=[\t]*[#,\\]}])",
+                                "number.hex"
+                            ],
+                            [
+                                "\\d{4}-\\d{2}-\\d{2}([ Tt]\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(( ?[+-]\\d{1,2}(:\\d{2})?)|Z)?)?(?=[\t]*[#,\\]}])",
+                                "number.date"
+                            ],
+                            [
+                                "0|[+-]?\\d[\\d_]*(?![\t]*\\S)",
+                                "number"
+                            ],
+                            [
+                                "(?:0|[+-]?\\d[\\d_]*)(?:\\.\\d+)?(?:e[+-]?[1-9]\\d*)?(?![\t]*\\S)",
+                                "number.float"
+                            ],
+                            [
+                                "0b[01][01_]*(?![\t]*\\S)",
+                                "number.binary"
+                            ],
+                            [
+                                "0o[0-7][0-7_]*(?![\t]*\\S)",
+                                "number.octal"
+                            ],
+                            [
+                                "0x[\\dA-Fa-f][\\dA-F_a-f]*(?![\t]*\\S)",
+                                "number.hex"
+                            ],
+                            [
+                                "\\d{4}-\\d{2}-\\d{2}([ Tt]\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(( ?[+-]\\d{1,2}(:\\d{2})?)|Z)?)?(?![\t]*\\S)",
+                                "number.date"
+                            ]
+                        ]
+                    }
+                }
+            }
+        }
+    ]
+}
