@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "azure-devops-toml-lang",
     "publisher": "noah-prezant",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "name": "TOML Language Support",
     "description": "Syntax highlighting for TOML files",
     "public": false,
@@ -84,7 +84,7 @@
                     "numberHex": "0x[\\dA-Fa-f][\\dA-F_a-f]*",
                     "numberBinary": "0b[01][01_]*",
                     "numberDate": "\\d{4}-\\d{2}-\\d{2}([ Tt]\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(( ?[+-]\\d{1,2}(:\\d{2})?)|Z)?)?",
-                    "escapes": "\\[\"\\bfnrt]",
+                    "escapes": "\\\\[\"\\\\bfnrt]",
                     "tokenizer": {
                         "root": [
                             {
@@ -97,7 +97,7 @@
                                 "include": "@inlineCollections"
                             },
                             [
-                                "(\".*?\"|'.*?'|.*?)([\t ]*)(=)(\\s+|$)",
+                                "(\".*?\"|'.*?'|.*?)([\\t ]*)(=)(\\s+|$)",
                                 [
                                     "type",
                                     "white",
@@ -205,7 +205,7 @@
                         ],
                         "whitespace": [
                             [
-                                "[\t\n\r ]+",
+                                "[\\t\\n\\r ]+",
                                 "white"
                             ]
                         ],
@@ -229,11 +229,11 @@
                         ],
                         "scalars": [
                             [
-                                "\"([^\"\\]|\\.)*$",
+                                "\"([^\"\\\\]|\\\\.)*$",
                                 "string.invalid"
                             ],
                             [
-                                "'([^'\\]|\\.)*$",
+                                "'([^'\\\\]|\\\\.)*$",
                                 "string.invalid"
                             ],
                             [
@@ -257,7 +257,7 @@
                         ],
                         "mlDoubleQuotedString": [
                             [
-                                "[^\"\\]+",
+                                "[^\"\\\\]+",
                                 "string"
                             ],
                             [
@@ -265,7 +265,7 @@
                                 "string.escape"
                             ],
                             [
-                                "\\.",
+                                "\\\\.",
                                 "string.escape.invalid"
                             ],
                             [
@@ -276,7 +276,7 @@
                         ],
                         "doubleQuotedString": [
                             [
-                                "[^\"\\]+",
+                                "[^\"\\\\]+",
                                 "string"
                             ],
                             [
@@ -284,7 +284,7 @@
                                 "string.escape"
                             ],
                             [
-                                "\\.",
+                                "\\\\.",
                                 "string.escape.invalid"
                             ],
                             [
@@ -295,51 +295,51 @@
                         ],
                         "numbers": [
                             [
-                                "@numberInteger(?=[\t]*[#,\\]}])",
+                                "@numberInteger(?=[\\t ]*[#,\\]}])",
                                 "number"
                             ],
                             [
-                                "@numberFloat(?=[\t]*[#,\\]}])",
+                                "@numberFloat(?=[\\t ]*[#,\\]}])",
                                 "number.float"
                             ],
                             [
-                                "@numberOctal(?=[\t]*[#,\\]}])",
+                                "@numberOctal(?=[\\t ]*[#,\\]}])",
                                 "number.octal"
                             ],
                             [
-                                "@numberBinary(?=[\t]*[#,\\]}])",
+                                "@numberBinary(?=[\\t ]*[#,\\]}])",
                                 "number.binary"
                             ],
                             [
-                                "@numberHex(?=[\t]*[#,\\]}])",
+                                "@numberHex(?=[\\t ]*[#,\\]}])",
                                 "number.hex"
                             ],
                             [
-                                "@numberDate(?=[\t]*[#,\\]}])",
+                                "@numberDate(?=[\\t ]*[#,\\]}])",
                                 "number.date"
                             ],
                             [
-                                "@numberInteger(?![\t]*\\S)",
+                                "@numberInteger(?![\\t ]*\\S)",
                                 "number"
                             ],
                             [
-                                "@numberFloat(?![\t]*\\S)",
+                                "@numberFloat(?![\\t ]*\\S)",
                                 "number.float"
                             ],
                             [
-                                "@numberBinary(?![\t]*\\S)",
+                                "@numberBinary(?![\\t ]*\\S)",
                                 "number.binary"
                             ],
                             [
-                                "@numberOctal(?![\t]*\\S)",
+                                "@numberOctal(?![\\t ]*\\S)",
                                 "number.octal"
                             ],
                             [
-                                "@numberHex(?![\t]*\\S)",
+                                "@numberHex(?![\\t ]*\\S)",
                                 "number.hex"
                             ],
                             [
-                                "@numberDate(?![\t]*\\S)",
+                                "@numberDate(?![\\t ]*\\S)",
                                 "number.date"
                             ]
                         ]
