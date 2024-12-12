@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "azure-devops-toml-lang",
     "publisher": "noah-prezant",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "name": "TOML Language Support",
     "description": "Syntax highlighting for TOML files",
     "public": false,
@@ -78,6 +78,13 @@
                         "+inf",
                         "-inf"
                     ],
+                    "numberInteger": "0|[+-]?\\d[\\d_]*",
+                    "numberFloat": "(?:0|[+-]?\\d[\\d_]*)(?:\\.\\d+)?(?:e[+-]?[1-9]\\d*)?",
+                    "numberOctal": "0o[0-7][0-7_]*",
+                    "numberHex": "0x[\\dA-Fa-f][\\dA-F_a-f]*",
+                    "numberBinary": "0b[01][01_]*",
+                    "numberDate": "\\d{4}-\\d{2}-\\d{2}([ Tt]\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(( ?[+-]\\d{1,2}(:\\d{2})?)|Z)?)?",
+                    "escapes": "\\[\"\\bfnrt]",
                     "tokenizer": {
                         "root": [
                             {
@@ -254,7 +261,7 @@
                                 "string"
                             ],
                             [
-                                "\\[\"\\bfnrt]",
+                                "@escapes",
                                 "string.escape"
                             ],
                             [
@@ -273,7 +280,7 @@
                                 "string"
                             ],
                             [
-                                "\\[\"\\bfnrt]",
+                                "@escapes",
                                 "string.escape"
                             ],
                             [
@@ -288,51 +295,51 @@
                         ],
                         "numbers": [
                             [
-                                "0|[+-]?\\d[\\d_]*(?=[\t]*[#,\\]}])",
+                                "@numberInteger(?=[\t]*[#,\\]}])",
                                 "number"
                             ],
                             [
-                                "(?:0|[+-]?\\d[\\d_]*)(?:\\.\\d+)?(?:e[+-]?[1-9]\\d*)?(?=[\t]*[#,\\]}])",
+                                "@numberFloat(?=[\t]*[#,\\]}])",
                                 "number.float"
                             ],
                             [
-                                "0o[0-7][0-7_]*(?=[\t]*[#,\\]}])",
+                                "@numberOctal(?=[\t]*[#,\\]}])",
                                 "number.octal"
                             ],
                             [
-                                "0b[01][01_]*(?=[\t]*[#,\\]}])",
+                                "@numberBinary(?=[\t]*[#,\\]}])",
                                 "number.binary"
                             ],
                             [
-                                "0x[\\dA-Fa-f][\\dA-F_a-f]*(?=[\t]*[#,\\]}])",
+                                "@numberHex(?=[\t]*[#,\\]}])",
                                 "number.hex"
                             ],
                             [
-                                "\\d{4}-\\d{2}-\\d{2}([ Tt]\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(( ?[+-]\\d{1,2}(:\\d{2})?)|Z)?)?(?=[\t]*[#,\\]}])",
+                                "@numberDate(?=[\t]*[#,\\]}])",
                                 "number.date"
                             ],
                             [
-                                "0|[+-]?\\d[\\d_]*(?![\t]*\\S)",
+                                "@numberInteger(?![\t]*\\S)",
                                 "number"
                             ],
                             [
-                                "(?:0|[+-]?\\d[\\d_]*)(?:\\.\\d+)?(?:e[+-]?[1-9]\\d*)?(?![\t]*\\S)",
+                                "@numberFloat(?![\t]*\\S)",
                                 "number.float"
                             ],
                             [
-                                "0b[01][01_]*(?![\t]*\\S)",
+                                "@numberBinary(?![\t]*\\S)",
                                 "number.binary"
                             ],
                             [
-                                "0o[0-7][0-7_]*(?![\t]*\\S)",
+                                "@numberOctal(?![\t]*\\S)",
                                 "number.octal"
                             ],
                             [
-                                "0x[\\dA-Fa-f][\\dA-F_a-f]*(?![\t]*\\S)",
+                                "@numberHex(?![\t]*\\S)",
                                 "number.hex"
                             ],
                             [
-                                "\\d{4}-\\d{2}-\\d{2}([ Tt]\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(( ?[+-]\\d{1,2}(:\\d{2})?)|Z)?)?(?![\t]*\\S)",
+                                "@numberDate(?![\t]*\\S)",
                                 "number.date"
                             ]
                         ]
